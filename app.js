@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
@@ -44,7 +45,11 @@ app.delete("/", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  return res.send("GET HTTP method on user resource");
+  return res.send(Object.values(users));
+});
+
+app.get("/users/:userId", (req, res) => {
+  return res.send(users[req.params.userId]);
 });
 
 app.post("/users", (req, res) => {
@@ -57,6 +62,14 @@ app.put("/users/:userId", (req, res) => {
 
 app.delete("/users/:userId", (req, res) => {
   return res.send(`DELETE HTTP method on user/${req.params.userId} resource`);
+});
+
+app.get("/messages", (req, res) => {
+  return res.send(Object.values(messages));
+});
+
+app.get("/messages/:messageId", (req, res) => {
+  return res.send(messages[req.params.messageId]);
 });
 
 app.listen(process.env.PORT, () => {
